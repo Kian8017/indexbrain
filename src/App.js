@@ -11,6 +11,7 @@ import {
   ResponsiveContext,
   Select,
   Stack,
+  Text,
   TextInput,
 } from 'grommet';
 
@@ -32,6 +33,8 @@ const TYPES = ['Names', 'Places', 'All'];
 
 function App() {
   const [filteredLocations, setFilteredLocations] = useState(LOCATIONS);
+
+  const [modalShown, setModalShown] = useState(false);
 
   const [place, setPlace] = useState('');
   const [nameType, setNameType] = useState('');
@@ -65,7 +68,11 @@ function App() {
               elevation="medium"
               style={{ zIndex: '1' }}
             >
-              <Heading level="3" margin="none">
+              <Heading
+                level="3"
+                margin="none"
+                onClick={() => setModalShown(false)}
+              >
                 Index Brain
               </Heading>
               <Box direction="row" gap="small">
@@ -112,6 +119,40 @@ function App() {
                 You selected: {nameType} from {place}. Query: '{query}'
               </Paragraph>
             </Box>
+            {!modalShown && (
+              <Layer>
+                <Box>
+                  <Box direction="row" justify="end" tag="header" margin="none">
+                    <Button
+                      icon={<FormClose />}
+                      onClick={() => setModalShown(true)}
+                    />
+                  </Box>
+                  <Box
+                    pad={{ bottom: 'large', horizontal: 'large' }}
+                    gap="small"
+                  >
+                    <Text>Welcome to IndexBrain!</Text>
+                    <Text>FIXME: Add info text about the website here.</Text>
+                    <Text>FIXME: Talk about Presentations / Lessons here.</Text>
+                    <Text>To get started, select a location:</Text>
+                    <Select
+                      value={place}
+                      onChange={(o) => {
+                        setPlace(o.option);
+                        setModalShown(true);
+                      }}
+                      onClose={() => {
+                        setFilteredLocations(LOCATIONS);
+                      }}
+                      onSearch={locationFilterHandler}
+                      options={filteredLocations}
+                      placeholder="Location"
+                    />
+                  </Box>
+                </Box>
+              </Layer>
+            )}
           </Box>
         )}
       </ResponsiveContext.Consumer>
