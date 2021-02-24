@@ -10,10 +10,11 @@ import {
   Paragraph,
   ResponsiveContext,
   Select,
+  Stack,
   TextInput,
 } from 'grommet';
 
-// import { Notification } from 'grommet-icons';
+import { FormClose } from 'grommet-icons';
 
 const theme = {
   global: {
@@ -67,7 +68,7 @@ function App() {
               <Heading level="3" margin="none">
                 Index Brain
               </Heading>
-              <Box pad={{ left: 'medium' }} direction="row" gap="small">
+              <Box direction="row" gap="small">
                 <Select
                   value={place}
                   onChange={(o) => setPlace(o.option)}
@@ -85,12 +86,19 @@ function App() {
                   placeholder="Type"
                   disabled={!nameTypeReady}
                 />
-                <TextInput
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Enter a search..."
-                  disabled={!queryReady}
-                />
+                <Stack anchor="right" fill>
+                  <TextInput
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    placeholder="Enter a search..."
+                    disabled={!queryReady}
+                  />
+                  <Button
+                    icon={<FormClose />}
+                    onClick={() => setQuery('')}
+                    disabled={!queryReady}
+                  />
+                </Stack>
                 <Button
                   label="Search"
                   onClick={searchHandler}
