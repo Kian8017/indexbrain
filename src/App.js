@@ -1,24 +1,55 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { Box, Button, Collapsible, Heading, Grommet } from "grommet";
+import { Notification } from "grommet-icons";
+import HeaderBar from "./element/headerbar.js";
+
+const theme = {
+  global: {
+    colors: {
+      brand: "#228BE6",
+    },
+    font: {
+      size: "18px",
+    },
+  },
+};
 
 function App() {
+  const [showSidebar, setShowSidebar] = useState(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Grommet theme={theme} full>
+      <Box fill>
+        <HeaderBar>
+          <Heading level="3" margin="none">
+            Index Brain
+          </Heading>
+          <Button
+            icon={<Notification />}
+            onClick={() => {
+              setShowSidebar(!showSidebar);
+            }}
+          />
+        </HeaderBar>
+        <Box direction="row" flex overflow={{ horizontal: "hidden" }}>
+          <Box flex align="center" justify="center">
+            App Body
+          </Box>
+          <Collapsible direction="horizontal" open={showSidebar}>
+            <Box
+              flex
+              width="medium"
+              background="light-3"
+              elevation="small"
+              align="center"
+              justify="center"
+            >
+              Sidebar
+            </Box>
+          </Collapsible>
+        </Box>
+      </Box>
+    </Grommet>
   );
 }
 
